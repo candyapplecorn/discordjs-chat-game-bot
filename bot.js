@@ -24,13 +24,14 @@ function command_is_ready(c){ return (c in timestamps && c in cooldowns) && time
 var messageBalancer = { balance: 0, update(m){ /*!/tired to do that/.test(m.content) &&*/ this.balance++ }, dec(){ this.balance-- }, valueOf(){ return this.balance; } }
 var prefix = "#!", add_prefix = m => (!(new RegExp(prefix)).test(m) ? prefix + m : m);
 var cooldowns = { 'adv': 15000, 'mine': 300000, 'chop': 300000, 'fish': 300000, 'forage': 300000, 'crack' : 10000, 'catch': 30000 };
-var timestamps = { 'adv': Date.now(),  'mine': Date.now(), 'chop': Date.now(), 'fish': Date.now(), 'forage': Date.now(), 'crack': Date.now(), 'heal': Date.now(), 'pheal': Date.now(), 'catch': Date.now() };
+var timestamps = { 'adv': Date.now() + 10000,  'mine': Date.now(), 'chop': Date.now(), 'fish': Date.now(), 'forage': Date.now(), 'crack': Date.now(), 'heal': Date.now(), 'pheal': Date.now(), 'catch': Date.now() };
 var stamp = command => timestamps[command.split(' ')[0]] = Date.now();
 
 // next - level up auto assign points
 client.on('ready', () => { console.log('I am ready!'); });
 
 client.on('message', message => {
+    control(message);
     if (!pmfromdbot(message)) return;
     else messageBalancer.update(message); // UPDATE MESSAGE BALANCER +
 
@@ -68,10 +69,23 @@ function sendCommand(content, message = global.message){
     stamp(content)
     DEQUEUE(content)
 }
-
-function pmfromdbot(message){
-    return message.author.username.toLowerCase().indexOf('discordrpg') >= 0 && message.channel.id == credentials.channel_id;
+function control (message){
+    if (!PMFromSelfToBot(message)) return;
+    if (/#!stats/.test(message.content.toLowerCase())){
+        stopRandomInterval();
+        global.control_interval_timeout && clearTimeout(global.control_interval_timeout);
+    } else if (/#!adventure \d/.test(message.content)){
+        stopRandomInterval();
+        global.control_interval_timeout && clearTimeout(global.control_interval_timeout);
+        global.control_interval_timeout = setTimeout(stopRandomInterval, (process.argv[2] || credentials.hours) * 60 * 60 * 1000)
+        main();
+    }
 }
+var pmfromdbot = message =>
+    message.author.username.toLowerCase().indexOf('discordrpg'.toLowerCase()) >= 0 && message.channel.id == credentials.channel_id;
+
+var PMFromSelfToBot = message =>
+    message.author.username.toLowerCase().indexOf(credentials.username.toLowerCase()) >= 0 && message.channel.id == credentials.channel_id;
 
 // returns true if we're in combat and the enemy would make a better pet
 /*function want_to_catch(message){
@@ -109,32 +123,32 @@ function randomInterval(cb, min, max){
         cb();
         randomInterval(cb, min, max);
     }, Math.floor(Math.random() * (max - min) + min)));
+    global.RI.length > 40 && global.RI.shift(); // keep it from getting too big with stale intervals
 }
-function stopRandomInterval(){ global.RI && global.RI.forEach(ri => clearTimeout(ri)) }
+function stopRandomInterval(){ global.RI && global.RI.forEach(ri => clearTimeout(ri)) || (global.RI = []) }
 
 // Might as well be int main
-randomInterval(function(){
+var main = () => randomInterval(function(){
     if (QUEUE.length) sendCommand(QUEUE[0])
 
     ENQUEUE_READY();
 }, 1 * 1000, 5 * 1000); // after waiting randomly from 1 to 5 seconds
+//main();
 
 // Make this all hinge on reading a config file. If the config file isn't found or is empty, abort
 (require('fs')).readFile('config.json', 'utf8', (e, d) => {
     if (e) throw e;
     global.credentials = JSON.parse(d);
 
-    setTimeout(process.exit, (process.argv[2] || credentials.hours) * 60 * 60 * 1000);
+    //setTimeout(process.exit, (process.argv[2] || credentials.hours) * 60 * 60 * 1000);
+    //setTimeout(stopRandomInterval, (process.argv[2] || credentials.hours) * 60 * 60 * 1000);
     client.login(process.argv[3] || credentials.token);
 })
-
-
-
-
 
 function table_catch (message){
 // taken from catch function
     if (!message) return console.log("Message is empty");
+    if (!global.lastCombat) return console.log("No combat to use yet!")
     //hps = message.content.replace(/,/g, '').match(/\d+/g);
     hps = global.lastCombat.content.replace(/,/g, '').match(/\d+/g);
     if (!hps) return console.log("Couldn't calculate hps from message")
@@ -148,13 +162,13 @@ function table_catch (message){
     if (nums.length !== 13){ return console.log("nums.length !== 13, aborting catch"), (global.IN_COMBAT = false); } else global.IN_COMBAT = true // glitchy?
     var player_level = nums.slice(-8 + 2, -6 + 2).pop() / 50;
 
-    console.log("Enemy: ", enemy)
-    console.log("Pet: ", pet)
-    console.log("hps: ", hps);
+    //console.log("Enemy: ", enemy)
+    //console.log("Pet: ", pet)
+    //console.log("hps: ", hps);
     enemy = pet_table.getBy({ attribute: 'pethp', value: enemy });
     pet = pet_table.getBy({ attribute: 'pethp', value: pet });
 
-    console.log("Player level: ", player_level, "Enemy HP: ", (enemy ? enemy.level : enemy), "PetHP: ", (pet ? pet.level : pet));
+    //console.log("Player level: ", player_level, "Enemy HP: ", (enemy ? enemy.level : enemy), "PetHP: ", (pet ? pet.level : pet));
 
     if (!enemy) return !!console.log("Enemy is a dynamic pet! Aborting catch"); // if enemy isn't in our table, don't catch. We don't want dynamic pets, they suck.
 
