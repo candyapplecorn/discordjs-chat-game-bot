@@ -6,7 +6,7 @@ takes the player's characters on adventures, performs sidequests, cracks geodes,
 
 ideally this program would be run in a screen or tmux session on a server. [https://tmux.github.io/](https://tmux.github.io/)
 
-<strike>one could configure their computer to have an alias or clickable executable which sends the command to start this program in a tmux/screen session via ssh + tmux sendkeys (ideally with an ssh key for passwordless execution).<strike> The bot can now be controlled from within Discord itself.
+<strike>one could configure their computer to have an alias or clickable executable which sends the command to start this program in a tmux/screen session via ssh + tmux sendkeys (ideally with an ssh key for passwordless execution).</strike> The bot can now be controlled from within Discord itself.
 
 the player's token, channel to run this bot, and hours to run this bot, must be in a config file named "__config.json__"; example:
 
