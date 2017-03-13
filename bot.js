@@ -153,7 +153,8 @@ function table_catch (message){
     hps = global.lastCombat.content.replace(/,/g, '').match(/\d+/g);
     if (!hps) return console.log("Couldn't calculate hps from message")
     var [enemy, pet] = [hps[10], hps[6]]; // Gives the amount of MAX hp the enemy and pet have. We can use this to find the pet and enemy in our petTable
-
+    var isPet = msg => !!pet_table.getBy({ attribute: 'name', value: msg.match(/[A-Z][a-z]+/g).pop() });
+    
 // taken from heal function
     //if (!/\[.*adven.*?ture\]/.test(message.content)) return console.log("last message wasn't an adventure. aborting catch");
     if (!global.IN_COMBAT) return console.log("We're not in combat! Can't catch.");
@@ -174,7 +175,7 @@ function table_catch (message){
 
     if (!pet) return !console.log("Our pet is a dynamic pet - attempting catch!"); // if our pet is null it's a dynamic pet so attempt to replace it with a better, non-dynamic pet
 
-    return Number(pet.level) < Number(enemy.level); // Neither our pet nor the enemy is dynamic. If the enemy has a higher level it's better so catch.
+    return Number(pet.level) < Number(enemy.level) && isPet(message.content); // Neither our pet nor the enemy is dynamic. If the enemy has a higher level it's better so catch.
 }
 
 var pet_table = {
