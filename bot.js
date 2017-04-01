@@ -43,7 +43,7 @@ client.on('message', message => {
 
     if (/HP left/.test(message.content)){
         global.lastCombat = message; // used for pet catching
-        heal(message) // If we adventured, then upon response, attempt to heal.
+        heal(message, ENQUEUE) // If we adventured, then upon response, attempt to heal.
     }
 
     if (global.LOGGING) console.log(message.content)

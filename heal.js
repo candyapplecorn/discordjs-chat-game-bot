@@ -5,7 +5,7 @@
  * Buys health potions after using */ global.POTION_RATE = 150 /*
  * health potions
  */
-function heal(message){
+function heal(message, ENQUEUE){
     if (!/\[.*adven.*?ture\]/.test(message.content)) return
     var nums = message.content.replace(/,/g, "").match(/\d+/g).map(n => Number(n))
     if (nums.length !== 13) return (global.IN_COMBAT = false); else global.IN_COMBAT = true
@@ -18,7 +18,7 @@ function heal(message){
         {entity: player, command: 'heal'}, {entity: pet, command: 'pheal'}
     ].forEach(({entity: e, command: c}) => { // ES6 parameter destructuring and aliasing
         if (calcPercents(e) < 30){
-            global.ENQUEUE(c + ' ' + calcPotionsNeeded(e)) // exporting doesn't play nice with globals, who knew
+            ENQUEUE(c + ' ' + calcPotionsNeeded(e)) // exporting doesn't play nice with globals, who knew
             global.POTIONS_USED = (global.POTIONS_USED || 0) + calcPotionsNeeded(e)
         }
     })
@@ -31,7 +31,7 @@ function heal(message){
 
     if (global.POTIONS_USED > POTION_RATE) {
         global.POTIONS_USED -= POTION_RATE
-        global.ENQUEUE(`buy health potion ${POTION_RATE}`)
+        ENQUEUE(`buy health potion ${POTION_RATE}`)
         POTION_RATE = Math.floor(Math.random() * 50) + 150;
     }
 }
