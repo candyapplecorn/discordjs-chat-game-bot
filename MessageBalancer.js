@@ -54,9 +54,9 @@ class MessageBalancer {
         this.ready = false
 
         if (this.minuteMaker)
-            this.timeout = this.context.setTimeout(function(){
-                this.waiting = false
-            }, this.minuteMaker.next())
+            this.timeout = this.context.setTimeout(
+                () => { this.waiting = false } // arrow functions preserve this - no global this error!
+                , this.minuteMaker.next())
     }
 
     receivedMessage(){
