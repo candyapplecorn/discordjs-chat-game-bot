@@ -88,37 +88,6 @@ var pmfromdbot = message =>
 var PMFromSelfToBot = message =>
     message.author.username.toLowerCase().indexOf(credentials.username.toLowerCase()) >= 0 && message.channel.id == credentials.channel_id;
 
-/* heals pet or player if under 30% health. Buys health potions after using */ POTION_RATE = 150 /* health potions */
-/*function heal(message){
-    if (!/\[.*adven.*?ture\]/.test(message.content)) return
-    var nums = message.content.replace(/,/g, "").match(/\d+/g).map(n => Number(n))
-    if (nums.length !== 13) return (global.IN_COMBAT = false); else global.IN_COMBAT = true
-    var calcPercents = tuple => tuple[0] / tuple[1] * 100
-    var calcPotionsNeeded = tuple => Math.floor((tuple[1] - tuple[0]) / 50)
-    var pet = nums.slice(-8, -6)
-    var player = nums.slice(-8 + 2, -6 + 2)
-
-    if (calcPercents(player) < 30){
-        ENQUEUE('heal ' + calcPotionsNeeded(player))
-        global.POTIONS_USED = (global.POTIONS_USED || 0) + calcPotionsNeeded(player)
-    }
-    if (calcPercents(pet) < 30){
-        ENQUEUE('pheal ' + calcPotionsNeeded(pet))
-        global.POTIONS_USED = (global.POTIONS_USED || 0) + calcPotionsNeeded(pet)
-    }
-
-    if (global.POTIONS_USED > POTION_RATE) (global.POTIONS_USED -= POTION_RATE) && ENQUEUE(`buy health potion ${POTION_RATE}`)
-}*/
-
-/*function randomInterval(cb, min, max){
-    global.RI = (global.RI || []).concat(setTimeout(function(){
-        cb();
-        randomInterval(cb, min, max);
-    }, Math.floor(Math.random() * (max - min) + min)));
-    global.RI.length > 40 && global.RI.shift(); // keep it from getting too big with stale intervals
-}
-function stopRandomInterval(){ global.RI && global.RI.forEach(ri => clearTimeout(ri)) || (global.RI = []) }*/
-
 // Might as well be int main
 var main = () => randomInterval(function(){
     if (QUEUE.length) sendCommand(QUEUE[0])
