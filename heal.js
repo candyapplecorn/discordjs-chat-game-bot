@@ -18,7 +18,7 @@ function heal(message){
         {entity: player, command: 'heal'}, {entity: pet, command: 'pheal'}
     ].forEach(({entity: e, command: c}) => { // ES6 parameter destructuring and aliasing
         if (calcPercents(e) < 30){
-            ENQUEUE(c + ' ' + calcPotionsNeeded(e))
+            global.ENQUEUE(c + ' ' + calcPotionsNeeded(e)) // exporting doesn't play nice with globals, who knew
             global.POTIONS_USED = (global.POTIONS_USED || 0) + calcPotionsNeeded(e)
         }
     })
@@ -31,7 +31,7 @@ function heal(message){
 
     if (global.POTIONS_USED > POTION_RATE) {
         global.POTIONS_USED -= POTION_RATE
-        ENQUEUE(`buy health potion ${POTION_RATE}`)
+        global.ENQUEUE(`buy health potion ${POTION_RATE}`)
         POTION_RATE = Math.floor(Math.random() * 50) + 150;
     }
 }
