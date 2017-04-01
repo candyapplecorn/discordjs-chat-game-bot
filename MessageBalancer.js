@@ -2,7 +2,7 @@
 
 // produces amount of minutes as milliseconds,
 // and returns that doubled with every next()
-// returns 5, 10, 20, 30, 60, 120, etc, minutes
+// returns 5, 10, 20, 40, 80, 160, etc, minutes
 function * waitGenerator(STARTMINUTES){
     const min2milli = m => m * 60 * 1000;
     var minutes2wait = STARTMINUTES || 5; // default params not on node v4.2 lol
@@ -17,8 +17,7 @@ function * waitGenerator(STARTMINUTES){
     Sending messages constantly without a reply would be an obvious sign of botting.
 
     In order to not appear as a bot (aka not get caught), MessageBalancer will wait
-    5, 10, 20, 30 minutes, then an hour, two, and so on, before setting itself to
-    ready, if it has not received a message from discordRPG.
+    before setting itself to ready, if it has not received a message from discordRPG.
 
     When MessageBalancer::waiting is true, the main program will not send messages.
 
