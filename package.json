@@ -1,0 +1,23 @@
+{
+  "name": "discordrpg-autoplay-bot",
+  "version": "1.0.0",
+  "description": "why play a game when a bot can play it for you?",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/candyapplecorn/chat-game-bot.git"
+  },
+  "keywords": [
+    "discord.js"
+  ],
+  "author": "Joseph Burger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/candyapplecorn/chat-game-bot/issues"
+  },
+  "homepage": "https://github.com/candyapplecorn/chat-game-bot#readme"
+}
