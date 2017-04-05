@@ -28,7 +28,7 @@ function petCatcher(message) {
     if (!ownedPet)
         return !console.log('Owned pet is a dynamic pet - catching.')
 
-    return enemy.level > ownedPet.level;
+    return Number(enemy.level) > Number(ownedPet.level);
 }
 
 var pet_table = {
