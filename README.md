@@ -19,7 +19,7 @@ the player's token, channel to run this bot, and hours to run this bot, must be 
 }
 ```
 
-##todo
+## todo
 
 <strike>make it so that the program is left on 24/7 (possibly with [pm2](https://www.npmjs.com/package/pm2)) and controlled via chat commands from within discord itself.
 the benefit of this would be that the user can control the bot without access to a computer. this would be much more convenient</strike> Done!
