@@ -27,6 +27,9 @@ function petCatcher(message) {
 
     if (!ownedPet)
         return !console.log('Owned pet is a dynamic pet - catching.')
+    
+    if (enemy.name == "Flibknort" && ownedPet.name != "Flibknort")
+        return true;
 
     return Number(enemy.level) > Number(ownedPet.level);
 }
