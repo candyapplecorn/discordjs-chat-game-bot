@@ -8,6 +8,7 @@ var { randomInterval, stopRandomInterval } = require('./randomInterval.js')
 var MessageBalancer = require('./MessageBalancer.js')
 var petCatcher = require('./petCatcher.js')
 var heal = require('./heal.js')
+var flibhunt = require('./flibknortHunt.js')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var messageBalancer = new MessageBalancer();
@@ -35,6 +36,15 @@ client.on('message', message => {
     else messageBalancer.receivedMessage();
 
     global.message = message
+
+    // Flibknort Hunt!
+    if (global.credentials && JSON.parse(global.credentials.flibhunt) === true)
+        flibhunt(message, ENQUEUE);
+    else {
+        try {
+            console.log(global.credentials.flibhunt, JSON.parse(global.credentials.flibhunt) === true)
+        } catch (e) { console.log(e) }
+    }
 
     if (global.LAST_WAS_CRACK){
         global.DONE_CRACKING = !/cracked.*and got/.test(message);
