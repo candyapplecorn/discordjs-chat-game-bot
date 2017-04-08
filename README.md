@@ -15,7 +15,10 @@ the player's token, channel to run this bot, and hours to run this bot, must be 
     "token":      "ndweilnhdqil123578129desiabndhjubn4k123",
     "channel_id": "3264789123046123046180",
     "hours":      2,
-    "username":   "BugsBunny"
+    "username":   "BugsBunny",
+    "flibhunt": false,
+    "bestWeapon": "Z-Sabre",
+    "worstWeapon": "Iron Sword"
 }
 ```
 
@@ -25,6 +28,13 @@ the player's token, channel to run this bot, and hours to run this bot, must be 
 the benefit of this would be that the user can control the bot without access to a computer. this would be much more convenient</strike> Done!
 
 ### On Pet Catching
+
+__Flibknort support for all level players added__
+
+
+High level characters: set ```config.json.flibhunt = true``` as well as associated weapons.
+
+Lower level characters: set ```config.json.flibhunt = false``` and don't worry about weapons.
 
 I've recently discovered that in this game, certain pets are broken AF. I always wondered why anyone would bother siphoning their valuable experience points into their pet rather than their own level. The character gains 5 attribute points for every level the character gains. Ten attribute points in strength gives 1 extra damage. So you could sorta estimate that 2 levels = 1 extra damage and 100 levels = 50 extra damage. The weapon upgrades every 50 levels give far more than 50 extra damage, so the character's damage progression is not entirely dependent on its stats. Rather, character level is mostly good for upgrading weapons, which bring the bulk of character damage.
 
