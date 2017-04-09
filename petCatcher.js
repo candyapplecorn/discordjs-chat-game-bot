@@ -22,13 +22,15 @@ function petCatcher(message) {
     var ownedPet = pet_table.getByName(ownedPetName)
     var enemy    = pet_table.getByName(enemyName)
 
+    if (ownedPet.name == "Flibknort") return false; // flib
+
     if (!enemy)
         return !!console.log('Not catching - enemy is dynamic.')
 
     if (!ownedPet)
         return !console.log('Owned pet is a dynamic pet - catching.')
     
-    if (enemy.name == "Flibknort" && ownedPet.name != "Flibknort")
+    if (enemy.name == "Flibknort" && ownedPet.name != "Flibknort") // flib
         return true;
 
     return Number(enemy.level) > Number(ownedPet.level);
