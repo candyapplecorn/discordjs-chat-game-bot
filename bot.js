@@ -20,7 +20,7 @@ function ENQUEUE(c){ !QUEUE.some(w => (new RegExp("^" + c)).test(w)) ? QUEUE.pus
 function DEQUEUE(c){ QUEUE = QUEUE.filter(w => !(new RegExp("^" + c)).test(w)) }
 function ENQUEUE_READY(){ Object.keys(timestamps).forEach(command => command_is_ready(command) && ENQUEUE(command)) }
 function command_is_ready(c){ return (c in timestamps && c in cooldowns) && timestamps[c] + cooldowns[c] < Date.now(); }
-//var messageBalancer = { balance: 0, update(m){ /*!/tired to do that/.test(m.content) &&*/ this.balance++ }, dec(){ this.balance-- }, valueOf(){ return this.balance; } }
+
 var prefix = "#!", add_prefix = m => (!(new RegExp(prefix)).test(m) ? prefix + m : m);
 var cooldowns = { 'adv': 15000, 'mine': 300000, 'chop': 300000, 'fish': 300000, 'forage': 300000, 'crack' : 10000, 'catch': 30000 };
 var timestamps = { 'adv': Date.now() + 10000,  'mine': Date.now(), 'chop': Date.now(), 'fish': Date.now(), 'forage': Date.now(), 'crack': Date.now(), 'heal': Date.now(), 'pheal': Date.now(), 'catch': Date.now() };
@@ -32,7 +32,6 @@ client.on('ready', () => { console.log('I am ready!'); });
 client.on('message', message => {
     control(message);
     if (!pmfromdbot(message)) return;
-    //else messageBalancer.update(message); // UPDATE MESSAGE BALANCER +
     else messageBalancer.receivedMessage();
 
     global.message = message
