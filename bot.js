@@ -37,13 +37,7 @@ client.on('message', message => {
     global.message = message
 
     // Flibknort Hunt!
-    if (global.credentials && JSON.parse(global.credentials.flibhunt) === true)
-        flibhunt(message, ENQUEUE);
-    else {
-        try {
-            console.log(global.credentials.flibhunt, JSON.parse(global.credentials.flibhunt) === true)
-        } catch (e) { console.log(e) }
-    }
+    flibhunt(message, ENQUEUE);
 
     if (global.LAST_WAS_CRACK){
         global.DONE_CRACKING = !/cracked.*and got/.test(message);

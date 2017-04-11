@@ -14,6 +14,15 @@ IF credentials.flibhunt == true
 var bestWeapon, worstWeapon, weaponShouldBe, currentWeapon;
 
 function setGlobals(){
+    if (global.credentials && JSON.parse(global.credentials.flibhunt) === true)
+        //flibhunt(message, ENQUEUE);
+    else {
+        try {
+            console.log(global.credentials.flibhunt, JSON.parse(global.credentials.flibhunt) === true)
+        } catch (e) { console.log(e) }
+        return false;
+    }
+
     try {
         var flibhunt = JSON.parse(global.credentials.flibhunt)
 
