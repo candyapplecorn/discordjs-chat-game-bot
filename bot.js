@@ -62,24 +62,26 @@ client.on('message', message => {
 function sendCommand(content, message = global.message){
     if (!message) return console.log("There is no global message object yet")
     if (!content) return console.log("There's no content to send")
-    //if (messageBalancer < 0) return console.log("Waiting for reply from server")
     if (messageBalancer.waiting) return console.log("Waiting for reply from server")
 
-    if (!(content == 'catch' && !petCatcher(message)/*table_catch(message)*//*want_to_catch(message)*/) &&
+    if (!(content == 'catch' && !petCatcher(message)) &&
         !(content == 'crack' && global.DONE_CRACKING)
     ){ // unless would be really nice here
         message.channel.sendMessage(add_prefix(content))
 
         if (content == 'crack') global.LAST_WAS_CRACK = true;
 
-        //messageBalancer.dec() // UPDATE MESSAGE BALANCER -
         messageBalancer.sentMessage() // UPDATE MESSAGE BALANCER -
     }
-    else global.LOGGING && console.log("FAILED: ", content)// || console.log("both: ", !(content == 'catch' && !table_catch(message)), "catch: ", table_catch(message));
+    else global.LOGGING && console.log("FAILED: ", content)
 
     stamp(content)
     DEQUEUE(content)
 }
+/*
+listens for the "#!stats" command. Stop the bot from sending messages when it's heard.
+listens for the #!adventure 2 command. Resumes sending messages when heard.
+*/
 function control (message){
     if (!PMFromSelfToBot(message)) return;
     if (/#!stats/.test(message.content.toLowerCase())){
@@ -104,14 +106,11 @@ var main = () => randomInterval(function(){
 
     ENQUEUE_READY();
 }, 1 * 1000, 5 * 1000); // after waiting randomly from 1 to 5 seconds
-//main();
 
 // Make this all hinge on reading a config file. If the config file isn't found or is empty, abort
 (require('fs')).readFile('config.json', 'utf8', (e, d) => {
     if (e) throw e;
     global.credentials = JSON.parse(d);
 
-    //setTimeout(process.exit, (process.argv[2] || credentials.hours) * 60 * 60 * 1000);
-    //setTimeout(stopRandomInterval, (process.argv[2] || credentials.hours) * 60 * 60 * 1000);
     client.login(process.argv[3] || credentials.token);
 })
